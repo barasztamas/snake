@@ -20,7 +20,7 @@ public enum Direction {
     public int getY() { return y; }
 
     public boolean isOpposite(Direction other) {
-        return (other != null && x == -other.x || y == -other.y);
+        return (other != null && x == -other.x && y == -other.y);
     }
 
     public static Direction randomDirection() {
