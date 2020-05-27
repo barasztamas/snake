@@ -1,5 +1,7 @@
 package snake;
 
+import snake.persistence.Database;
+
 import javax.swing.*;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
@@ -14,6 +16,8 @@ public class GUI extends JFrame {
     private boolean paused = false;
     private GamePanel gamePanel;
     private Timer newFrameTimer;
+    private String name = null;
+    private Database database = new Database();
     private final Dimension gameSize = new Dimension(660, 660);
     private final int FPS = 120;
 
@@ -31,6 +35,7 @@ public class GUI extends JFrame {
         JMenuBar menuBar = new JMenuBar();
         menuBar.add(new MenuItem("Restart", KeyEvent.VK_R, this::start ));
         menuBar.add(new MenuItem("Pause", KeyEvent.VK_P, this::pause ));
+        menuBar.add(new MenuItem("HighScores", KeyEvent.VK_H, this::showHighScores ));
         menuBar.add(new ShowScoreMenu());
         menuBar.add(Box.createHorizontalGlue());
         //menuBar.add(new AboutMenu());
@@ -54,6 +59,7 @@ public class GUI extends JFrame {
 
     private void start() {
         game.start();
+        name = null;
         paused = false;
     }
 
@@ -62,6 +68,11 @@ public class GUI extends JFrame {
             paused = !paused;
         }
     }
+
+    private void showHighScores() {
+        new HighScoreWindow(database.getHighScores(), this);
+    }
+
 
     private void about() {
         JOptionPane.showMessageDialog(GUI.this, "use arrow keys to change direction, P or space to pause, R to restart");
@@ -77,6 +88,7 @@ public class GUI extends JFrame {
                     case KeyEvent.VK_SPACE:     pause();                                break;
                     case KeyEvent.VK_R:         start();                                break;
                     case KeyEvent.VK_A:         about();                                break;
+                    case KeyEvent.VK_H:         showHighScores();                       break;
                 }
                 if (!paused && !game.isOver()) {
                     switch (kc) {
@@ -97,6 +109,11 @@ public class GUI extends JFrame {
             if (!paused && !game.isOver()) {
                 game.move();
                 repaint();
+            }
+            if (name==null && game.isOver() && game.getScore() > database.minScore()) {
+                name = JOptionPane.showInputDialog("What's your name?");
+                database.storeHighScore(name, game.getScore());
+                showHighScores();
             }
         }
     }
