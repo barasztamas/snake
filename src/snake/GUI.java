@@ -1,7 +1,8 @@
 package snake;
 
 import javax.swing.*;
-import javax.swing.border.Border;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,9 +29,12 @@ public class GUI extends JFrame {
         gamePanel = new GamePanel(game);
 
         JMenuBar menuBar = new JMenuBar();
-        menuBar.add(new RestartMenuItem());
-        menuBar.add(new PauseMenuItem());
-        menuBar.add(new ScoreMenuItem());
+        menuBar.add(new MenuItem("Restart", KeyEvent.VK_R, this::start ));
+        menuBar.add(new MenuItem("Pause", KeyEvent.VK_P, this::pause ));
+        menuBar.add(new ShowScoreMenu());
+        menuBar.add(Box.createHorizontalGlue());
+        //menuBar.add(new AboutMenu());
+        menuBar.add(new MenuItem("About", KeyEvent.VK_R, this::about));
         setJMenuBar(menuBar);
 
         getContentPane().add(gamePanel);
@@ -48,25 +52,40 @@ public class GUI extends JFrame {
 
     public Game getGame() { return game;  }
 
+    private void start() {
+        game.start();
+        paused = false;
+    }
+
+    private void pause() {
+        if(!game.isOver()) {
+            paused = !paused;
+        }
+    }
+
+    private void about() {
+        JOptionPane.showMessageDialog(GUI.this, "use arrow keys to change direction, P or space to pause, R to restart");
+    }
+
     private class MyKeyAdapter extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
             super.keyPressed(e);
             int kc = e.getKeyCode();
-            if(paused) {
-                if (kc==KeyEvent.VK_R) {game.start();}
-                paused = false;
-            } else if (!game.isOver()) {
                 switch (kc) {
-                    case KeyEvent.VK_LEFT:      game.changeDirection(Direction.LEFT);   break;
-                    case KeyEvent.VK_RIGHT:     game.changeDirection(Direction.RIGHT);  break;
-                    case KeyEvent.VK_UP:        game.changeDirection(Direction.UP);     break;
-                    case KeyEvent.VK_DOWN:      game.changeDirection(Direction.DOWN);   break;
                     case KeyEvent.VK_P:
-                    case KeyEvent.VK_SPACE:     paused = true;                          break;
-                    case KeyEvent.VK_R:         game.start();                           break;
+                    case KeyEvent.VK_SPACE:     pause();                                break;
+                    case KeyEvent.VK_R:         start();                                break;
+                    case KeyEvent.VK_A:         about();                                break;
                 }
-            }
+                if (!paused && !game.isOver()) {
+                    switch (kc) {
+                        case KeyEvent.VK_LEFT:      game.changeDirection(Direction.LEFT);   break;
+                        case KeyEvent.VK_RIGHT:     game.changeDirection(Direction.RIGHT);  break;
+                        case KeyEvent.VK_UP:        game.changeDirection(Direction.UP);     break;
+                        case KeyEvent.VK_DOWN:      game.changeDirection(Direction.DOWN);   break;
+                    }
+                }
 
             repaint();
         }
@@ -75,44 +94,15 @@ public class GUI extends JFrame {
     private class NewFrameListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (!paused) {
+            if (!paused && !game.isOver()) {
                 game.move();
                 repaint();
             }
         }
     }
 
-    private class RestartMenuItem extends JMenu implements ActionListener {
-        public RestartMenuItem() {
-            super("Restart");
-            setMnemonic(KeyEvent.VK_R);
-            setPreferredSize(new Dimension(100, getPreferredSize().height));
-            this.addActionListener(this);
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            game.start();
-        }
-    }
-
-    private class PauseMenuItem extends JMenu implements ActionListener {
-        public PauseMenuItem() {
-            super("Pause");
-            setMnemonic(KeyEvent.VK_P);
-            setPreferredSize(new Dimension(100, getPreferredSize().height));
-            this.addActionListener(this);
-
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            paused = !paused;
-        }
-    }
-
-    private class ScoreMenuItem extends JMenuItem {
-        public ScoreMenuItem() {
+    private class ShowScoreMenu extends JMenuItem {
+        public ShowScoreMenu() {
             super();
         }
 
@@ -123,5 +113,17 @@ public class GUI extends JFrame {
         }
     }
 
+    private class AboutMenu extends JMenuItem implements ActionListener {
+        public AboutMenu() {
+            super("About");
+            setMnemonic(KeyEvent.VK_A);
+            this.addActionListener(this);
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JOptionPane.showMessageDialog(GUI.this, "use arrow keys to change direction, P or space to pause, R to restart");
+        }
+    }
 
 }
