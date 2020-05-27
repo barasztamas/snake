@@ -17,10 +17,11 @@ public class SnakeBody extends Sprite {
     }
 
     protected Color newColor() {
-        switch (rand.nextInt(5)) {
+        switch (rand.nextInt(7)) {
             case 0:
-                return color.brighter();
             case 1:
+                return color.brighter();
+            case 2:
                 return color.darker();
             default:
                 return color;

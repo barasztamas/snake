@@ -56,7 +56,7 @@ public class GUI extends JFrame {
             if(paused) {
                 if (kc==KeyEvent.VK_R) {game.start();}
                 paused = false;
-            } else {
+            } else if (!game.isOver()) {
                 switch (kc) {
                     case KeyEvent.VK_LEFT:      game.changeDirection(Direction.LEFT);   break;
                     case KeyEvent.VK_RIGHT:     game.changeDirection(Direction.RIGHT);  break;

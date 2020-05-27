@@ -45,7 +45,13 @@ public class SnakeHead extends SnakeBody {
     }
 
     @Override
-    protected void draw(Graphics2D g) {
+    public void draw(Graphics g) {
         super.draw(g);
+        int r = size/2;
+        int mx = coord.x + r;
+        int my = coord.y + r;
+
+        g.setColor(Color.red);
+        g.drawLine(mx + (int)(direction.getX()*r*0.8),  my + (int)(direction.getY()*r*0.8), mx + (int)(direction.getX()*r*1.1),  my + (int)(direction.getY()*r*1.1));
     }
 }
