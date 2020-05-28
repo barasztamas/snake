@@ -12,6 +12,7 @@ public class SnakeHead extends SnakeBody {
 
     public SnakeHead(int x, int y, int size, Direction direction) {
         super(x, y, size, Color.green, null);
+        this.coord = this.drawCoord;
         this.previousDirection = this.direction = direction;
         this.bodySize = size * 3 / 4;
         this.bodyOffset = (size-bodySize) / 2;
@@ -53,5 +54,8 @@ public class SnakeHead extends SnakeBody {
 
         g.setColor(Color.red);
         g.drawLine(mx + (int)(direction.getX()*r*0.8),  my + (int)(direction.getY()*r*0.8), mx + (int)(direction.getX()*r*1.1),  my + (int)(direction.getY()*r*1.1));
+        g.setColor(Color.black);
+        g.fillOval(mx + (int)(direction.getX()*r*0.6 + direction.getY()*r*0.3),  my + (int)(direction.getY()*r*0.6 + direction.getX()*r*0.3), 2,  2);
+        g.fillOval(mx + (int)(direction.getX()*r*0.6 - direction.getY()*r*0.3),  my + (int)(direction.getY()*r*0.6 - direction.getX()*r*0.3), 2,  2);
     }
 }

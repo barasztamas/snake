@@ -7,10 +7,12 @@ public class SnakeBody extends Sprite {
     protected Color color;
     protected SnakeBody next;
     protected int size;
+    protected Rectangle drawCoord;
     private static Random rand = new Random();
 
     public SnakeBody(int x, int y, int size, Color color, SnakeBody next) {
-        super(new Rectangle(x, y, size, size), (Image) null);
+        super(new Rectangle(x+size/2, y+size/2, 1, 1), (Image) null);
+        this.drawCoord = new Rectangle(x, y, size, size);
         this.size = size;
         this.color = color;
         this.next = next;
@@ -63,6 +65,6 @@ public class SnakeBody extends Sprite {
     protected void draw(Graphics2D g) {
         if (next != null) { next.draw(g); }
         g.setColor(color);
-        g.fillOval(coord.x, coord.y, size, size);
+        g.fillOval(drawCoord.x, drawCoord.y, size, size);
     }
 }
