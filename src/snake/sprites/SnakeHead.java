@@ -11,7 +11,7 @@ public class SnakeHead extends SnakeBody {
     private int bodyOffset;
 
     public SnakeHead(int x, int y, int size, Direction direction) {
-        super(x, y, size, Color.green, null);
+        super(x, y, size, Color.green);
         this.coord = this.drawCoord;
         this.previousDirection = this.direction = direction;
         this.bodySize = size * 3 / 4;
@@ -35,14 +35,17 @@ public class SnakeHead extends SnakeBody {
 
     @Override
     public void move(boolean grow) {
-        if (grow || next != null) {
-            next = new SnakeBody(coord.x+bodyOffset, coord.y+bodyOffset, bodySize, newColor(), next);
+        if (grow && next == null) {
+            next = new SnakeBody(coord.x+bodyOffset, coord.y+bodyOffset, bodySize, newColor());
+        } else if (next != null) {
+            next.move(grow);
+            next.coord.translate(2*previousDirection.getX(), 2*previousDirection.getY());
+            next.drawCoord.translate(2*previousDirection.getX(), 2*previousDirection.getY());
         }
         // to avoid errors from a keypress changing the direction during move, we introduce a local variable
         Direction d = direction;
         coord.translate(2*d.getX(), 2*d.getY());
         previousDirection = d;
-        next.move(grow);
     }
 
     @Override

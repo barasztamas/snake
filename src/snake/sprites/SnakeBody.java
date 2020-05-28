@@ -10,12 +10,12 @@ public class SnakeBody extends Sprite {
     protected Rectangle drawCoord;
     private static Random rand = new Random();
 
-    public SnakeBody(int x, int y, int size, Color color, SnakeBody next) {
+    public SnakeBody(int x, int y, int size, Color color) {
         super(new Rectangle(x+size/2, y+size/2, 1, 1), (Image) null);
         this.drawCoord = new Rectangle(x, y, size, size);
         this.size = size;
         this.color = color;
-        this.next = next;
+        this.next = null;
     }
 
     protected Color newColor() {
@@ -31,18 +31,14 @@ public class SnakeBody extends Sprite {
     }
 
     protected void move(boolean grow) {
-
         if (grow && next == null) {
-            color = newColor();
-        }
-
-        if (next != null) {
-            this.color = next.color;
-            if (!grow && next.next==null) {
-                next = null;
-            } else {
-                next.move(grow);
-            }
+            next = new SnakeBody(drawCoord.x, drawCoord.y, size, newColor());
+        } else if (next != null) {
+            next.move(grow);
+            next.coord.x = this.coord.x;
+            next.coord.y = this.coord.y;
+            next.drawCoord.x = this.drawCoord.x;
+            next.drawCoord.y = this.drawCoord.y;
         }
     }
 

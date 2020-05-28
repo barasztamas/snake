@@ -39,7 +39,6 @@ public class Database {
         for (String name : highScores.keySet()){
             HighScore h = new HighScore(name, highScores.get(name));
             scores.add(h);
-            System.out.println(h);
         }
         return scores;
     }
@@ -56,7 +55,6 @@ public class Database {
     }
 
     private boolean mergeHighScores(String name, int score, boolean store){
-        System.out.println("Merge: " + name + ":" + score + "(" + store + ")");
         boolean doUpdate = true;
         if (highScores.containsKey(name)){
             Integer oldScore = highScores.get(name);
@@ -89,7 +87,7 @@ public class Database {
                     " WHERE Name = '" + name + "'";
             return stmt.executeUpdate(s);
         } catch (Exception e){
-            System.out.println("storeToDatabase error");
+            e.printStackTrace();
         }
         return 0;
     }
@@ -101,10 +99,9 @@ public class Database {
                     "VALUES('" + name + "'" +
                     "," + score +
                     ") ON DUPLICATE KEY UPDATE Score=" + score;
-            System.out.println(s);
             return stmt.executeUpdate(s);
         } catch (Exception e){
-            System.out.println("storeToDatabase error");
+            e.printStackTrace();
         }
         return 0;
     }
