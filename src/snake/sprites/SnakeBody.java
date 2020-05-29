@@ -55,12 +55,9 @@ public class SnakeBody extends Sprite {
 
     @Override
     public void draw(Graphics g) {
-        draw((Graphics2D) g);
-    }
-
-    protected void draw(Graphics2D g) {
         if (next != null) { next.draw(g); }
         g.setColor(color);
         g.fillOval(drawCoord.x, drawCoord.y, size, size);
     }
+
 }

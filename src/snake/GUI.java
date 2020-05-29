@@ -53,8 +53,6 @@ public class GUI extends JFrame {
         newFrameTimer.start();
     }
 
-    public Game getGame() { return game;  }
-
     private void start() {
         game.start();
         name = null;
@@ -129,19 +127,6 @@ public class GUI extends JFrame {
         public void paint(Graphics g) {
             setText(String.valueOf(game.getScore()));
             super.paint(g);
-        }
-    }
-
-    private class AboutMenu extends JMenuItem implements ActionListener {
-        public AboutMenu() {
-            super("About");
-            setMnemonic(KeyEvent.VK_A);
-            this.addActionListener(this);
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            JOptionPane.showMessageDialog(GUI.this, "use arrow keys to change direction, P or space to pause, R to restart");
         }
     }
 
