@@ -3,8 +3,6 @@ package snake;
 import snake.persistence.Database;
 
 import javax.swing.*;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,7 +37,7 @@ public class GUI extends JFrame {
         menuBar.add(new ShowScoreMenu());
         menuBar.add(Box.createHorizontalGlue());
         //menuBar.add(new AboutMenu());
-        menuBar.add(new MenuItem("About", KeyEvent.VK_R, this::about));
+        menuBar.add(new MenuItem("About", KeyEvent.VK_B, this::about));
         setJMenuBar(menuBar);
 
         getContentPane().add(gamePanel);
@@ -75,7 +73,7 @@ public class GUI extends JFrame {
 
 
     private void about() {
-        JOptionPane.showMessageDialog(GUI.this, "use arrow keys to change direction, P or space to pause, R to restart");
+        JOptionPane.showMessageDialog(GUI.this, "Arrows keys or WASD - change direction\nP or space - pause\nR - restart\nH - highscores\nB - show this dialog");
     }
 
     private class MyKeyAdapter extends KeyAdapter {
@@ -87,14 +85,18 @@ public class GUI extends JFrame {
                     case KeyEvent.VK_P:
                     case KeyEvent.VK_SPACE:     pause();                                break;
                     case KeyEvent.VK_R:         start();                                break;
-                    case KeyEvent.VK_A:         about();                                break;
+                    case KeyEvent.VK_B:         about();                                break;
                     case KeyEvent.VK_H:         showHighScores();                       break;
                 }
                 if (!paused && !game.isOver()) {
                     switch (kc) {
+                        case KeyEvent.VK_A:
                         case KeyEvent.VK_LEFT:      game.changeDirection(Direction.LEFT);   break;
+                        case KeyEvent.VK_D:
                         case KeyEvent.VK_RIGHT:     game.changeDirection(Direction.RIGHT);  break;
+                        case KeyEvent.VK_W:
                         case KeyEvent.VK_UP:        game.changeDirection(Direction.UP);     break;
+                        case KeyEvent.VK_S:
                         case KeyEvent.VK_DOWN:      game.changeDirection(Direction.DOWN);   break;
                     }
                 }
