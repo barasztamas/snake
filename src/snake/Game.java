@@ -5,8 +5,10 @@ import snake.sprites.SnakeHead;
 import snake.sprites.Sprite;
 
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.function.Function;
 
 public class Game {
@@ -69,7 +71,6 @@ public class Game {
     public int getScore() { return score; }
     public int size() { return gameSize; }
     public void changeDirection(Direction d) { snake.changeDirection(d); }
-    public void over() {over = true;}
 
     private void setSnake() {
         stones = new ArrayList<>();

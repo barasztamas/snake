@@ -39,12 +39,12 @@ public class SnakeHead extends SnakeBody {
             next = new SnakeBody(coord.x+bodyOffset, coord.y+bodyOffset, bodySize, newColor());
         } else if (next != null) {
             next.move(grow);
-            next.coord.translate(2*previousDirection.getX(), 2*previousDirection.getY());
-            next.drawCoord.translate(2*previousDirection.getX(), 2*previousDirection.getY());
+            next.coord.translate(previousDirection.getX(), previousDirection.getY());
+            next.drawCoord.translate(previousDirection.getX(), previousDirection.getY());
         }
         // to avoid errors from a keypress changing the direction during move, we introduce a local variable
         Direction d = direction;
-        coord.translate(2*d.getX(), 2*d.getY());
+        coord.translate(d.getX(), d.getY());
         previousDirection = d;
     }
 

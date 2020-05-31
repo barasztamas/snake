@@ -1,8 +1,6 @@
 package snake;
 
 import javax.swing.*;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,7 +17,7 @@ public class MenuItem extends JMenuItem implements ActionListener {
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(0, 0);
+        return new Dimension(1, 1);
     }
 
     @Override

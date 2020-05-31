@@ -3,7 +3,10 @@ package snake.persistence;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class Database {
@@ -58,11 +61,11 @@ public class Database {
         boolean doUpdate = true;
         if (highScores.containsKey(name)){
             Integer oldScore = highScores.get(name);
-            doUpdate = (score != 0 && (oldScore == null || score > oldScore));
+            doUpdate = (score != 0 && (oldScore == null || score >= oldScore));
         }
         if (doUpdate){
             highScores.put(name, score);
-            return (!store || (storeToDatabase(name, score) > 0 && !name.equals(removeMinScore(true))));
+            return (!store || (storeToDatabase(name, score) == 0 && !name.equals(removeMinScore(true))));
         }
         return false;
     }

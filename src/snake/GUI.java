@@ -18,6 +18,7 @@ public class GUI extends JFrame {
     private Database database = new Database();
     private final Dimension gameSize = new Dimension(660, 660);
     private final int FPS = 120;
+    private final int speed = 2;
 
     public static void main(String[] args) {
         new GUI();
@@ -107,8 +108,10 @@ public class GUI extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (!paused && !game.isOver()) {
-                game.move();
-                repaint();
+                for (int i = 0; i < speed; i++) {
+                    game.move();
+                    repaint();
+                }
             }
             if (name==null && game.isOver() && game.getScore() > database.minScore()) {
                 name = JOptionPane.showInputDialog("What's your name?");
