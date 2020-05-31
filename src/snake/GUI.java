@@ -115,8 +115,9 @@ public class GUI extends JFrame {
             }
             if (name==null && game.isOver() && game.getScore() > database.minScore()) {
                 name = JOptionPane.showInputDialog("What's your name?");
-                database.storeHighScore(name, game.getScore());
-                showHighScores();
+                if(database.storeHighScore(name, game.getScore())) {
+                    showHighScores();
+                }
             }
         }
     }

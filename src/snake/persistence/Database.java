@@ -65,7 +65,7 @@ public class Database {
         }
         if (doUpdate){
             highScores.put(name, score);
-            return (!store || (storeToDatabase(name, score) == 0 && !name.equals(removeMinScore(true))));
+            return (!store || (storeToDatabase(name, score) > 0 && !name.equals(removeMinScore(true))));
         }
         return false;
     }
