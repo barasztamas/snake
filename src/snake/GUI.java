@@ -24,12 +24,9 @@ public class GUI extends JFrame {
         new GUI();
     }
 
-    public GUI() throws HeadlessException {
+    public GUI() {
         super("Snake");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        game = new Game(660, 30);
-        gamePanel = new GamePanel(game);
 
         JMenuBar menuBar = new JMenuBar();
         menuBar.add(new MenuItem("Restart", KeyEvent.VK_R, this::start ));
@@ -41,15 +38,14 @@ public class GUI extends JFrame {
         menuBar.add(new MenuItem("About", KeyEvent.VK_B, this::about));
         setJMenuBar(menuBar);
 
-        getContentPane().add(gamePanel);
-
+        game = new Game(660, 30);
+        getContentPane().add(new GamePanel(game));
 
         setResizable(false);
         pack();
         setVisible(true);
 
         addKeyListener(new MyKeyAdapter());
-
         newFrameTimer = new Timer(1000 / FPS, new NewFrameListener());
         newFrameTimer.start();
     }
