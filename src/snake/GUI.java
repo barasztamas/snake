@@ -31,11 +31,11 @@ public class GUI extends JFrame {
         JMenuBar menuBar = new JMenuBar();
         menuBar.add(new MenuItem("Restart", KeyEvent.VK_R, this::start ));
         menuBar.add(new MenuItem("Pause", KeyEvent.VK_P, this::pause ));
-        menuBar.add(new MenuItem("HighScores", KeyEvent.VK_H, this::showHighScores ));
+        menuBar.add(new MenuItem("HighScores", KeyEvent.VK_S, this::showHighScores ));
         menuBar.add(new ShowScoreMenu());
         menuBar.add(Box.createHorizontalGlue());
         //menuBar.add(new AboutMenu());
-        menuBar.add(new MenuItem("About", KeyEvent.VK_B, this::about));
+        menuBar.add(new MenuItem("Help", KeyEvent.VK_H, this::help));
         setJMenuBar(menuBar);
 
         game = new Game(660, 30);
@@ -67,8 +67,8 @@ public class GUI extends JFrame {
     }
 
 
-    private void about() {
-        JOptionPane.showMessageDialog(GUI.this, "Arrows keys or WASD - change direction\nP or space - pause\nR - restart\nH - highscores\nB - show this dialog");
+    private void help() {
+        JOptionPane.showMessageDialog(GUI.this, "Arrows keys or WASD - change direction\nP or space - pause\nR - restart\ns - highscores\nh - show this dialog");
     }
 
     private class MyKeyAdapter extends KeyAdapter {
@@ -80,8 +80,8 @@ public class GUI extends JFrame {
                     case KeyEvent.VK_P:
                     case KeyEvent.VK_SPACE:     pause();                                break;
                     case KeyEvent.VK_R:         start();                                break;
-                    case KeyEvent.VK_B:         about();                                break;
-                    case KeyEvent.VK_H:         showHighScores();                       break;
+                    case KeyEvent.VK_H:         help();                                 break;
+                    case KeyEvent.VK_S:         showHighScores();                       break;
                 }
                 if (!paused && !game.isOver()) {
                     switch (kc) {
@@ -106,13 +106,17 @@ public class GUI extends JFrame {
             if (!paused && !game.isOver()) {
                 for (int i = 0; i < speed; i++) {
                     game.move();
-                    repaint();
                 }
+                repaint();
             }
             if (name==null && game.isOver() && game.getScore() > database.minScore()) {
                 name = JOptionPane.showInputDialog("What's your name?");
-                if(database.storeHighScore(name, game.getScore())) {
-                    showHighScores();
+                if (name==null){
+                    name="";
+                } else {
+                    if(database.storeHighScore(name, game.getScore())) {
+                        showHighScores();
+                    }
                 }
             }
         }
